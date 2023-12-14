@@ -8,12 +8,11 @@ function AppointmentForm() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  const [doctorName, setDoctorName] = useState("")
+  const [spec, setSpec] = useState("default")
   const [patientName, setPatientName] = useState("");
   const [patientNumber, setPatientNumber] = useState("");
   const [patientGender, setPatientGender] = useState("default");
   const [appointmentTime, setAppointmentTime] = useState("");
-  const [preferredMode, setPreferredMode] = useState("default");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formErrors, setFormErrors] = useState({});
 
@@ -46,8 +45,8 @@ function AppointmentForm() {
         errors.appointmentTime = "Please select a future appointment time";
       }
     }
-    if (preferredMode === "default") {
-      errors.preferredMode = "Please select preferred mode";
+    if (spec === "default") {
+      errors.spec = "Please select preferred specialisation";
     }
 
     if (Object.keys(errors).length > 0) {
@@ -60,15 +59,16 @@ function AppointmentForm() {
     patientNumber: patientNumber,
     patientGender: patientGender,
     appointmentTime : appointmentTime,
-    doctorName : doctorName
+    spec : spec
     }).then((response)=>console.log(response.data));
+
     // Reset form fields and errors after successful submission
     setPatientName("");
     setPatientNumber("");
     setPatientGender("default");
     setAppointmentTime("");
     setFormErrors({});
-    setDoctorName("")
+    setSpec("default")
 
     toast.success("Appointment Scheduled !", {
       position: toast.POSITION.TOP_CENTER,
@@ -143,21 +143,12 @@ function AppointmentForm() {
           </label>
 
           <br />
-          <label>
-            Doctor:
-            <input
-              type="text"
-              value={doctorName}
-              onChange={(e) => setDoctorName(e.target.value)}
-              required
-            />
-            {formErrors.doctorName && <p className="error-message">{formErrors.doctorName}</p>}
-          </label>
+          
           <label>
            Specialisation
             <select
-              value={preferredMode}
-              onChange={(e) => setPreferredMode(e.target.value)}
+              value={spec}
+              onChange={(e) => setSpec(e.target.value)}
               required
             >
               <option value="default">Select</option>
@@ -166,13 +157,13 @@ function AppointmentForm() {
               <option value="video">Pediatrician</option>
               <option value="video">Radiologist</option>
             </select>
-            {formErrors.preferredMode && <p className="error-message">{formErrors.preferredMode}</p>}
+            {formErrors.spec && <p className="error-message">{formErrors.spec}</p>}
           </label>
-          <label>
+          {/* <label>
            Upload previous Precription:
            <input type="file" />
             {formErrors.preferredMode && <p className="error-message">{formErrors.preferredMode}</p>}
-          </label>
+          </label> */}
 
           <br />
           <button type="submit" className="text-appointment-btn">

@@ -58,7 +58,7 @@ function Navbar() {
         </li>
       
         <li>
-          <a    onClick={handleBookAppointmentClick} href="#appointment" className="navbar-links">
+          <a onClick={handleBookAppointmentClick} href="#appointment" className="navbar-links">
        
             Book Appointment
 

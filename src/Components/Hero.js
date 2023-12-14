@@ -17,6 +17,11 @@ function Hero() {
     navigate("/appointment");
   };
 
+  function handleAnalyser()
+  {
+    window.location.href = '/Health-Plus/analyser'
+  }
+
   useEffect(() => {
     const onPageScroll = () => {
       if (window.scrollY > 600) {
@@ -55,7 +60,7 @@ function Hero() {
           <button
             className="text-scheduler-btn"
             type="button"
-            onClick={handleBookAppointmentClick}
+            onClick={handleAnalyser}
           >
             <FontAwesomeIcon icon={faCalendarCheck} />  Symptoms Analyser
           </button>

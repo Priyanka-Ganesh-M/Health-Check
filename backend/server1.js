@@ -86,22 +86,16 @@ const Doctor = new mongoose.model("Doctor", doctorSchema);
 
 const appointmentSchema = new mongoose.Schema({
     doctor: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Doctor',
-        required: true,
+        type: String,
     },
     patient: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Patient',
-        required: true,
+        type: String,
     },
     start_time: {
-        type: Date,
-        required: true,
+        type: Number,
     },
     end_time: {
-        type: Date,
-        required: true,
+        type: Number,
     },
     is_emergency: {
         type: Boolean,
@@ -112,7 +106,58 @@ const appointmentSchema = new mongoose.Schema({
 const Appointment = mongoose.model('Appointment', appointmentSchema);
 
 
-
+// Doctor.insertMany([
+//     {
+//         "name": "John Smith",
+//         "specialization": "Cardilogist",  
+//         "availability": [9, 10, 11, 14, 15, 16]
+//       },
+//       {
+//         "name": "Sarah Park", 
+//         "specialization": "Cardilogist",
+//         "availability": [10, 13, 15]
+//       },
+//       {
+//         "name": "Mark Taylor",
+//         "specialization": "Cardilogist",
+//         "availability": [9, 12, 14, 16]
+//       },
+//       {
+//         "name": "Jessica Moore",
+//         "specialization": "Cardilogist",
+//         "availability": [9, 11, 14, 17]    
+//       },
+//       {
+//         "name": "David Kim",
+//         "specialization": "Cardilogist",
+//         "availability": [10, 13, 15, 17]
+//       },
+//       {  
+//         "name": "Lisa Chen",
+//         "specialization": "Cardilogist", 
+//         "availability": [9, 15, 16, 17]
+//       },
+//       {
+//         "name": "Mike Davis", 
+//         "specialization": "Cardilogist",
+//         "availability": [9, 10, 14, 16] 
+//       },
+//       {
+//         "name": "Cindy Lopez",
+//         "specialization": "Cardilogist",  
+//         "availability": [10, 12, 13, 15]
+//       },
+//       {
+//         "name": "Steve Martinez",
+//         "specialization": "Cardilogist",
+//         "availability": [11, 12, 14, 17]
+//       }, 
+//       {
+//         "name": "Amy Patel",
+//         "specialization": "Cardilogist", 
+//         "availability": [11, 13, 17]
+//       }
+//     ]);
 
 app.post('/patientDetails', async (req, res) => {
     try {
@@ -121,16 +166,16 @@ app.post('/patientDetails', async (req, res) => {
         const pNumber = req.body.patientNumber;
         const pGender = req.body.patientGender;
         const appTime = req.body.appointmentTime;
-
+        console.log(pName);
         // Find a doctor based on specialization (you may need a more specific query)
-        const doctor = await Doctor.findOne({ specialization: 'Cardiologist' });
+        const doctor = await Doctor.findOne({ specialization: 'Cardilogist' });
 
         if (!doctor) {
             return res.status(404).json({ error: 'No available doctor found for the given specialization.' });
         }
 
         // Find the closest available time slot based on the specified appointment time
-        const closestAvailableTime = findClosestAvailableTime(doctor.availability, new Date(appTime));
+        const closestAvailableTime = findClosestAvailableTime(doctor.availability);
 
         if (!closestAvailableTime) {
             return res.status(400).json({ error: 'No available time slot for the specified appointment time.' });
@@ -147,11 +192,12 @@ app.post('/patientDetails', async (req, res) => {
         const savedPatient = await newPatient.save();
 
         // Create a new appointment using the closest available time slot
+        console.log(doctor._id.toString())
         const newAppointment = new Appointment({
             doctor: doctor._id, // Use the doctor's ObjectId
             patient: savedPatient._id, // Use the patient's ObjectId
             start_time: closestAvailableTime,
-            end_time: new Date(closestAvailableTime.getTime() + (1 * 60 * 60 * 1000)), // Assuming 1 hour appointment duration
+            end_time: closestAvailableTime + 1, // Assuming 1 hour appointment duration
             is_emergency: false, // Adjust this based on your requirements
         });
 
@@ -168,9 +214,9 @@ app.post('/patientDetails', async (req, res) => {
     }
 });
 
-function findClosestAvailableTime(availability, desiredTime) {
-    const sortedAvailability = availability.sort((a, b) => Math.abs(desiredTime - new Date(a)) - Math.abs(desiredTime - new Date(b)));
-    return sortedAvailability[0];
+function findClosestAvailableTime(availability) {
+    const t = availability.shift();
+    return t;
 }
 
 app.listen(port, () => {

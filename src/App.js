@@ -5,7 +5,7 @@ import Home from "./Pages/Home";
 import Legal from "./Pages/Legal";
 import NotFound from "./Pages/NotFound";
 import Appointment from "./Pages/Appointment";
-
+import Recommendations from "./Components/Analyser";
 function App() {
   return (
     <div className="App">
@@ -14,6 +14,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="/appointment" element={<Appointment />} />
+          <Route path="/analyser" element={<Recommendations />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
