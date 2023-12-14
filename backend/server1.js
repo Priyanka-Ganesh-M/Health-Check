@@ -203,11 +203,16 @@ app.post('/patientDetails', async (req, res) => {
 
         // Save the appointment to the database
         const savedAppointment = await newAppointment.save();
+        const docName = '';
+        Doctor.findById(doctor._id).then((doctor)=>{
+            res.json({
+                message: 'Patient details and appointment created successfully.',
+                appointment: savedAppointment,
+                docName : doctor.name,
+            });
+        })
 
-        res.status(201).json({
-            message: 'Patient details and appointment created successfully.',
-            appointment: savedAppointment,
-        });
+        
     } catch (error) {
         console.error('Error processing appointment:', error);
         res.status(500).json({ error: 'Internal Server Error' });

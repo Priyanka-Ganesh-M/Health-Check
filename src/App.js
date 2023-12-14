@@ -6,6 +6,7 @@ import Legal from "./Pages/Legal";
 import NotFound from "./Pages/NotFound";
 import Appointment from "./Pages/Appointment";
 import Recommendations from "./Components/Analyser";
+
 function App() {
   return (
     <div className="App">

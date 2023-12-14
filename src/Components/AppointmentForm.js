@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import "../Styles/AppointmentForm.css";
 import { ToastContainer, toast } from "react-toastify";
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 function AppointmentForm() {
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
+  
 
   const [spec, setSpec] = useState("default")
   const [patientName, setPatientName] = useState("");
@@ -15,8 +15,9 @@ function AppointmentForm() {
   const [appointmentTime, setAppointmentTime] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formErrors, setFormErrors] = useState({});
+  const [result,setResult] = useState({appointment : {}, doctor : ''});
 
-  const handleSubmit = (e) => {
+ async function handleSubmit(e){
     e.preventDefault();
 
     // Validate form inputs
@@ -54,13 +55,16 @@ function AppointmentForm() {
       return;
     }
 
-    axios.post(`http://localhost:4000/patientDetails`, {
+    await axios.post(`http://localhost:4000/patientDetails`, {
     patientName : patientName,
     patientNumber: patientNumber,
     patientGender: patientGender,
     appointmentTime : appointmentTime,
     spec : spec
-    }).then((response)=>console.log(response.data));
+    }).then((response)=>{setResult({appointment : response.data.appointment, doctor : response.data.docName});
+    console.log(result)});
+
+    
 
     // Reset form fields and errors after successful submission
     setPatientName("");
@@ -76,6 +80,10 @@ function AppointmentForm() {
       onClose: () => setIsSubmitted(false),
     });
   };
+  useEffect(() => {
+    setResult(result);
+    
+  }, [result]);
 
   return (
     <div className="appointment-form-section">
@@ -170,10 +178,21 @@ function AppointmentForm() {
             Confirm Appointment
           </button>
 
-          <p className="success-message" style={{display: isSubmitted ? "block" : "none"}}>Appointment details has been sent to the patients phone number via SMS.</p>
+          <p className="success-message" style={{display: isSubmitted ? "block" : "none"}}>Appointment has been scheduled.<br/>You can reschedule the appointment</p>
         </form>
+        {result.doctor?
+        <Card className="Card">
+        <Card.Header as="h5">Appointment</Card.Header>
+        <Card.Body>
+          <Card.Title>{result.appointment.start_time}</Card.Title>
+          <Card.Text>
+           {result.doctor}
+          </Card.Text><br/>
+          <Button variant="ternary" style = {{'backgroundColor' : 'white', 'borderRadius' : '5px', 'padding' : '4px'}}>Reschedule</Button>
+        </Card.Body>
+    </Card>:<div></div>}
       </div>
-
+       
       <div className="legal-footer">
         <p>© 2013-2023 Health+. All rights reserved.</p>
       </div>
