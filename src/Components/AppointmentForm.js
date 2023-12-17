@@ -180,22 +180,9 @@ function AppointmentForm() {
 
           <p className="success-message" style={{display: isSubmitted ? "block" : "none"}}>Appointment has been scheduled.<br/>You can reschedule the appointment</p>
         </form>
-        {result.doctor?
-        <Card className="Card">
-        <Card.Header as="h5">Appointment</Card.Header>
-        <Card.Body>
-          <Card.Title>{result.appointment.start_time}</Card.Title>
-          <Card.Text>
-           {result.doctor}
-          </Card.Text><br/>
-          <Button variant="ternary" style = {{'backgroundColor' : 'white', 'borderRadius' : '5px', 'padding' : '4px'}}>Reschedule</Button>
-        </Card.Body>
-    </Card>:<div></div>}
+        
       </div>
        
-      <div className="legal-footer">
-        <p>© 2013-2023 Health+. All rights reserved.</p>
-      </div>
 
       <ToastContainer autoClose={5000} limit={1} closeButton={false} />
     </div>

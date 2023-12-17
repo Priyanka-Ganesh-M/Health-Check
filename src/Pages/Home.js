@@ -16,9 +16,7 @@ function Home() {
       <Info />
       <About />
       <BookAppointment />
-      <Reviews />
-      <Doctors />
-      <Footer />
+    
     </div>
   );
 }
