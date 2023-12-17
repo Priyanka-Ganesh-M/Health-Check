@@ -101,6 +101,9 @@ const appointmentSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    date : {
+        type : Date,
+    }
 });
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);
@@ -109,52 +112,52 @@ const Appointment = mongoose.model('Appointment', appointmentSchema);
 // Doctor.insertMany([
 //     {
 //         "name": "John Smith",
-//         "specialization": "Cardilogist",  
+//         "specialization": "Cardiologist",  
 //         "availability": [9, 10, 11, 14, 15, 16]
 //       },
 //       {
 //         "name": "Sarah Park", 
-//         "specialization": "Cardilogist",
+//         "specialization": "Radiologist",
 //         "availability": [10, 13, 15]
 //       },
 //       {
 //         "name": "Mark Taylor",
-//         "specialization": "Cardilogist",
+//         "specialization": "Pediatrician",
 //         "availability": [9, 12, 14, 16]
 //       },
 //       {
 //         "name": "Jessica Moore",
-//         "specialization": "Cardilogist",
+//         "specialization": "Cardiologist",
 //         "availability": [9, 11, 14, 17]    
 //       },
 //       {
 //         "name": "David Kim",
-//         "specialization": "Cardilogist",
+//         "specialization": "Physiologist",
 //         "availability": [10, 13, 15, 17]
 //       },
 //       {  
 //         "name": "Lisa Chen",
-//         "specialization": "Cardilogist", 
+//         "specialization": "Radiologist", 
 //         "availability": [9, 15, 16, 17]
 //       },
 //       {
 //         "name": "Mike Davis", 
-//         "specialization": "Cardilogist",
+//         "specialization": "Cardiologist",
 //         "availability": [9, 10, 14, 16] 
 //       },
 //       {
 //         "name": "Cindy Lopez",
-//         "specialization": "Cardilogist",  
+//         "specialization": "Pediatrician",  
 //         "availability": [10, 12, 13, 15]
 //       },
 //       {
 //         "name": "Steve Martinez",
-//         "specialization": "Cardilogist",
+//         "specialization": "Cardiologist",
 //         "availability": [11, 12, 14, 17]
 //       }, 
 //       {
 //         "name": "Amy Patel",
-//         "specialization": "Cardilogist", 
+//         "specialization": "Pediatrician", 
 //         "availability": [11, 13, 17]
 //       }
 //     ]);
@@ -165,11 +168,13 @@ app.post('/patientDetails', async (req, res) => {
         const pName = req.body.patientName;
         const pNumber = req.body.patientNumber;
         const pGender = req.body.patientGender;
-        const appTime = req.body.appointmentTime;
-        console.log(pName);
+        const appTime = req.body.appointmentDate;
+        const time = new Date(appTime).getHours();
+        const date = new Date(appTime).getDate();
+        const spec = req.body.spec;
         // Find a doctor based on specialization (you may need a more specific query)
-        const doctor = await Doctor.findOne({ specialization: 'Cardilogist' });
-
+        const doctor = await Doctor.findOne({ specialization: spec });
+        console.log(doctor)
         if (!doctor) {
             return res.status(404).json({ error: 'No available doctor found for the given specialization.' });
         }
@@ -199,19 +204,30 @@ app.post('/patientDetails', async (req, res) => {
             start_time: closestAvailableTime,
             end_time: closestAvailableTime + 1, // Assuming 1 hour appointment duration
             is_emergency: false, // Adjust this based on your requirements
+            date : date,
         });
 
         // Save the appointment to the database
-        const savedAppointment = await newAppointment.save();
-        const docName = '';
-        Doctor.findById(doctor._id).then((doctor)=>{
-            res.json({
-                message: 'Patient details and appointment created successfully.',
-                appointment: savedAppointment,
-                docName : doctor.name,
-            });
-        })
-
+       newAppointment.save();
+        function findClosestAvailableTime(availability) {
+            
+            // Convert targetTime and timeArray elements to minutes for easier comparison
+            const targetTime = time;
+            const closestTimeIndex = availability.reduce((closestIndex, current, currentIndex, array) => {
+                const closestDiff = Math.abs(array[closestIndex] - targetTime);
+                const currentDiff = Math.abs(current - targetTime);
+        
+                return currentDiff < closestDiff ? currentIndex : closestIndex;
+            }, 0);
+        
+            // Get the closest time
+            const closestTime = availability[closestTimeIndex];
+        
+            // Remove the closest time from the array
+            availability.splice(closestTimeIndex, 1);
+        
+            return closestTime;
+        }
         
     } catch (error) {
         console.error('Error processing appointment:', error);
@@ -219,10 +235,22 @@ app.post('/patientDetails', async (req, res) => {
     }
 });
 
-function findClosestAvailableTime(availability) {
-    const t = availability.shift();
-    return t;
-}
+
+app.get('/appointments',async (req,res)=>{
+    let response = [];
+    const appointments = await Appointment.find({});
+    for (const appointment of appointments) {
+        const doc = await Doctor.findById(appointment.doctor);
+        const result = {
+            start_time: appointment.start_time,
+            doctor: doc.name,
+            date : appointment.date,
+        };
+        response.push(result);
+    }
+    
+    res.json(response);
+});
 
 app.listen(port, () => {
     console.log(`API is running at http://localhost:${port}`);

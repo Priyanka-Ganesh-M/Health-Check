@@ -52,7 +52,7 @@ function Navbar() {
           </a>
         </li>
         <li>
-          <a href="#about" className="navbar-links">
+          <a href="/Health-Plus/analyser" className="navbar-links">
           Symptoms Analyser
           </a>
         </li>
@@ -66,8 +66,8 @@ function Navbar() {
 
         </li>
         <li>
-          <a href="#doctors" className="navbar-links">
-            Doctors
+          <a href="/Health-Plus/appointments" className="navbar-links">
+            Appointments
           </a>
         </li>
       </ul>

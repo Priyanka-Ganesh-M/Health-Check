@@ -59,7 +59,7 @@ function AppointmentForm() {
     patientName : patientName,
     patientNumber: patientNumber,
     patientGender: patientGender,
-    appointmentTime : appointmentTime,
+    appointmentDate : appointmentTime,
     spec : spec
     }).then((response)=>{setResult({appointment : response.data.appointment, doctor : response.data.docName});
     console.log(result)});
@@ -160,10 +160,10 @@ function AppointmentForm() {
               required
             >
               <option value="default">Select</option>
-              <option value="voice">Cardiologist</option>
-              <option value="video">Physiologists</option>
-              <option value="video">Pediatrician</option>
-              <option value="video">Radiologist</option>
+              <option value="Cardiologist">Cardiologist</option>
+              <option value="Physiologist">Physiologist</option>
+              <option value="Pediatrician">Pediatrician</option>
+              <option value="Radiologist">Radiologist</option>
             </select>
             {formErrors.spec && <p className="error-message">{formErrors.spec}</p>}
           </label>

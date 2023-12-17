@@ -6,7 +6,7 @@ import Legal from "./Pages/Legal";
 import NotFound from "./Pages/NotFound";
 import Appointment from "./Pages/Appointment";
 import Recommendations from "./Components/Analyser";
-
+import SeeAppointments from "./Pages/SeeAppointments";
 function App() {
   return (
     <div className="App">
@@ -17,6 +17,7 @@ function App() {
           <Route path="/appointment" element={<Appointment />} />
           <Route path="/analyser" element={<Recommendations />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/appointments" element={<SeeAppointments />} />
         </Routes>
       </Router>
     </div>
