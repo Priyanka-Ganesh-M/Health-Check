@@ -36,12 +36,13 @@
     line-height: 1.6rem;
 }
 .text-appointment-btn {
+    margin-top : 10px;
     padding: 14px 20px;
-    color: white;
-    border: 1px solid transparent;
+    color: black;
+    border: 1px solid black;
     border-radius: 28px;
-    outline: transparent;
-    background-color: #1A8EFD;
+    outline: black;
+    background-color: transparent;
     font-size: 18px;
     font-family: 'Rubik', sans-serif;
     letter-spacing: .8px;
@@ -54,13 +55,14 @@
     border: 1px solid #1A8EFD;
 }
 .text-scheduler-btn {
+    margin-top : 10px;
     margin-left: 4px;
     padding: 14px 20px;
-    color: white;
-    border: 1px solid transparent;
+    color: black;
+    border: 1px solid black;
     border-radius: 28px;
     outline: transparent;
-    background-color: #1A8EFD;
+    background-color: transparent;
     font-size: 18px;
     font-family: 'Rubik', sans-serif;
     letter-spacing: .8px;
