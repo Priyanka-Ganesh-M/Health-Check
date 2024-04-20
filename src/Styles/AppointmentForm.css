@@ -4,7 +4,8 @@
     flex-direction: column;
     margin: 150px;
     gap: 40px;
-    background: linear-gradient(to right, #ECF2FF, #FBFCFF);
+    background: white;
+    border-radius: 5px;
 }
 .form-title {
     font-family: 'Poppins', sans-serif;
@@ -13,16 +14,6 @@
 }
 .form-title > span {
     position: relative;
-}
-.form-title span::before {
-    content: '';
-    position: absolute;
-    width: 75%;
-    height: 4px;
-    background-color: #9D2553;
-    border-radius: 8px;
-    left: 0;
-    bottom: -12px;
 }
 /* Form */
 .form-content label {

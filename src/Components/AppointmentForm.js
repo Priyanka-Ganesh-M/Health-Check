@@ -137,11 +137,7 @@ function submitTime(hour, day, doc)
 
   return (
     <div className="appointment-form-section">
-      <h1 className="legal-siteTitle">
-        <Link to="/">
-          Health<span className="legal-siteSign">Sync</span>
-        </Link>
-      </h1>
+      
 
       <div className="form-container">
         <h2 className="form-title">
