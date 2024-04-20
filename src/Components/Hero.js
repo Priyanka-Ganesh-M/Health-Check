@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Doctor from "../Assets/doctor-picture.png";
+import Doctor from "../Assets/doctor-group.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarCheck, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate  } from "react-router-dom";
@@ -41,21 +41,21 @@ function Hero() {
     <div className="section-container">
       <div className="hero-section">
         <div className="text-section">
-          <p className="text-headline">Health comes first</p>
-          <h2 className="text-title">
-            Find your Doctor and make an Appointments
-          </h2>
-          <p className="text-descritpion">
-            Talk to online doctors and get medical advice, online prescriptions,
-            refills and medical notes within minutes.
-          </p>
+          <h6 className="text-title">
+            Find a Doctor and make an appointment
+          </h6>
+          
           <button
             className="text-appointment-btn"
             type="button"
             onClick={handleBookAppointmentClick}
           >
-            <FontAwesomeIcon icon={faCalendarCheck} /> Book Appointment
+          <FontAwesomeIcon icon={faCalendarCheck} /> Book Appointment
           </button>
+          <br/><br/><br/><br/><br/><br/>
+          <h6 className="text-title">
+            Analyse your symptoms
+          </h6>
           <button
             className="text-scheduler-btn"
             type="button"
@@ -63,22 +63,7 @@ function Hero() {
           >
             <FontAwesomeIcon icon={faCalendarCheck} />  Symptoms Analyser
           </button>
-          <div className="text-stats">
-            <div className="text-stats-container">
-              <p>105k+</p>
-              <p>Receive Patients</p>
-            </div>
-
-            <div className="text-stats-container">
-              <p>20+</p>
-              <p>Expert Doctors</p>
-            </div>
-
-            <div className="text-stats-container">
-              <p>10+</p>
-              <p>Years of Experience</p>
-            </div>
-          </div>
+          
         </div>
 
         <div className="hero-image-section">

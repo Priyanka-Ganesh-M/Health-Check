@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Navbar from './Navbar';
 
 const Recommendations = () => {
   const [symptoms, setSymptoms] = useState('');
@@ -22,6 +23,7 @@ const Recommendations = () => {
 
   return (
     <div style={styles.new}>
+    <Navbar/>
     <div style={styles.container}>
       <input
         type="text"
@@ -42,7 +44,7 @@ const Recommendations = () => {
 const styles = {
   new:{
     
-    background: 'linear-gradient(to right, #ECF2FF, #FBFCFF)'
+    background: 'linear-gradient(to right, #1A8EFD, #1A8EFD)'
   },
   container: {
    
